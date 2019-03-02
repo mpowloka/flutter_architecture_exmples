@@ -1,19 +1,27 @@
-import 'package:flutter_architecture_exmples/datasource/ListItem.dart';
-import 'package:flutter_architecture_exmples/mvp/item_list/item_list_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_architecture_exmples/datasource/items_repository.dart';
+import 'package:flutter_architecture_exmples/datasource/list_item.dart';
+import 'package:flutter_architecture_exmples/mvp/item_list/item_list_contract.dart';
+import 'package:flutter_architecture_exmples/mvp/navigation/routes.dart';
 
-class ItemListPresenter implements ItemListViewPresenter{
+class ItemListPresenterImpl implements ItemListPresenter {
+  ItemListView _view;
 
   @override
-  ItemListView view;
-
-  @override
-  void onFabClicked() {
-    // TODO: implement onFabClicked
+  set view(ItemListView view) {
+    _view = view;
+    ItemsRepository().listItems.listen((items) {
+      _view.bindItems(items);
+    });
   }
 
   @override
-  void onItemLongPressed(ListItem item) {
-    // TODO: implement onItemLongPressed
+  void onFabClicked(BuildContext context) {
+    Navigator.push(context, MvpRoutes.getAddItemRoute());
   }
 
+  @override
+  void onItemLongPressed(BuildContext context, ListItem item) {
+    Navigator.push(context, MvpRoutes.getEditItemRoute(item));
+  }
 }
