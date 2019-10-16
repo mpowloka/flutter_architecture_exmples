@@ -18,7 +18,7 @@ class ItemListBlocScreen extends StatelessWidget {
           builder: (context, snapshot) {
             return ListView.separated(
                 itemBuilder: (context, index) {
-                  var item = snapshot.data[index];
+                  final item = snapshot.data[index];
                   return ListTile(
                       leading: Icon(item.icon),
                       title: Text(item.name),
